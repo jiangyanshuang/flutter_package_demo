@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class Hahahaha {
@@ -11,38 +10,33 @@ class Hahahaha {
     return version;
   }
 
-  static Future<String?> get getNative async {
-    final String? res = await _channel.invokeMethod('getNative');
+  /*! @brief WWKApi的成员函数，向企业微信终端程序注册企业应用。
+  *
+  * 需要在每次启动第三方应用程序时调用。第一次调用后，会在企业微信的可用应用列表中出现。
+  * @see registerApp
+  * @param appid 企业微信开发者ID
+  * @param corpid 企业微信企业ID
+  * @param agentid 企业微信企业应用ID
+  * @return 成功返回YES，失败返回NO。
+  */
+  static Future<bool> registerApp({required String appid, required String corpid, required String agentid}) async {
+    final bool res = await _channel.invokeMethod('registerApp');
     return res;
   }
-
-  static Future<String?> sayHello(String message) async {
-    final Map<dynamic, dynamic>? res = await _channel.invokeMethod('sayHello', <String, dynamic>{'message': message});
-    String? hehe = res!["info"];
-
-    final StreamSubscription _eventSubscription =
-        const EventChannel('flutter_plugin_event').receiveBroadcastStream().listen(
-      (event) {
-        final Map<dynamic, dynamic> map = event;
-
-        switch (map['event']) {
-          case 'DemoEvent':
-            String value = map['value'];
-            debugPrint('DemoEventData：$value');
-            break;
-          default:
-        }
-      },
-      onError: (error) {
-        debugPrint(error);
-
-        throw error;
-      },
-    );
-
-    return hehe;
-  }
-
-  // ---------------------------------------------------------------------
-
 }
+
+
+
+
+
+// flutter
+// 暴露注册方法
+// 点击企业微信登陆事件方法
+// 监听企业微信授权回调结果
+
+// ios
+// 注册企业微信
+// 调用企业微信登陆
+// 企业微信返回后去触发flutter方法
+
+// 插件使用说明书
