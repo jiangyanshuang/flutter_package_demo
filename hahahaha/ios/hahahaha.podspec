@@ -15,6 +15,14 @@ A new flutter plugin project.
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.public_header_files = 'Classes/**/*.h'
+
+  # 三方库的.framework文件路径
+  s.vendored_frameworks = ''
+  # 三方库的.a文件路径
+  s.vendored_libraries = 'Classes/WXWorkApi/libWXWorkApi.a'
+  # 三方库使用的.bundle文件路径
+  s.resource = ''
+
   s.dependency 'Flutter'
   s.platform = :ios, '9.0'
 

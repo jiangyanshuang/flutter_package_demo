@@ -66,7 +66,15 @@ class _MyAppState extends State<MyApp> {
                 bool res = await Hahahaha.registerApp(appid: appid, corpid: corpid, agentid: agentid);
                 debugPrint("注册结果为：$res");
               },
-              child: const Text("点击"),
+              child: const Text("注册"),
+            ),
+            TextButton(
+              onPressed: () async {
+                Hahahaha.sendReq(fun: (Map<String, String> map) {
+                  debugPrint("登陆结果为：$map");
+                });
+              },
+              child: const Text("登陆"),
             ),
           ]),
         ),
