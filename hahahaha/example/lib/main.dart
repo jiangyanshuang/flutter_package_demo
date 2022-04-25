@@ -31,11 +31,13 @@ class _MyAppState extends State<MyApp> {
             children: [
               TextButton(
                 onPressed: () async {
-                  //注册企业微信
-                  String appid = "wwauth50291a264ed6e2c0000019";
-                  String corpid = "wx50291a264ed6e2c0";
-                  String agentid = "1000019";
-
+                  // appid 企业微信开发者ID
+                  // corpid 企业微信企业ID
+                  // agentid 企业微信企业应用ID
+                  String appid = "xxx";
+                  String corpid = "xxx";
+                  String agentid = "xxx";
+                  // 注册企业微信
                   Hahahaha.registerApp(appid: appid, corpid: corpid, agentid: agentid);
                 },
                 child: const Text("注册"),
