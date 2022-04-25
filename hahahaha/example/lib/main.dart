@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
-
-import 'package:flutter/services.dart';
 import 'package:hahahaha/hahahaha.dart';
 
 void main() {
@@ -16,33 +13,9 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String _platformVersion = 'Unknown';
-
   @override
   void initState() {
     super.initState();
-    initPlatformState();
-  }
-
-  // Platform messages are asynchronous, so we initialize in an async method.
-  Future<void> initPlatformState() async {
-    String platformVersion;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    // We also handle the message potentially returning null.
-    try {
-      platformVersion = await Hahahaha.platformVersion ?? 'Unknown platform version';
-    } on PlatformException {
-      platformVersion = 'Failed to get platform version.';
-    }
-
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-    if (!mounted) return;
-
-    setState(() {
-      _platformVersion = platformVersion;
-    });
   }
 
   @override
@@ -53,30 +26,29 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Plugin example app'),
         ),
         body: Center(
-          child: Column(children: [
-            Text('Running on: $_platformVersion\n'),
-            TextButton(
-              onPressed: () async {
-                //注册企业微信
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextButton(
+                onPressed: () async {
+                  //注册企业微信
+                  String appid = "wwauth50291a264ed6e2c0000019";
+                  String corpid = "wx50291a264ed6e2c0";
+                  String agentid = "1000019";
 
-                String appid = "wwauth50291a264ed6e2c0000019";
-                String corpid = "wx50291a264ed6e2c0";
-                String agentid = "1000019";
-
-                bool res = await Hahahaha.registerApp(appid: appid, corpid: corpid, agentid: agentid);
-                debugPrint("注册结果为：$res");
-              },
-              child: const Text("注册"),
-            ),
-            TextButton(
-              onPressed: () async {
-                Hahahaha.sendReq(fun: (Map<String, String> map) {
-                  debugPrint("登陆结果为：$map");
-                });
-              },
-              child: const Text("登陆"),
-            ),
-          ]),
+                  Hahahaha.registerApp(appid: appid, corpid: corpid, agentid: agentid);
+                },
+                child: const Text("注册"),
+              ),
+              TextButton(
+                onPressed: () async {
+                  Map map = await Hahahaha.sendReq();
+                  debugPrint(map.toString());
+                },
+                child: const Text("登陆"),
+              ),
+            ],
+          ),
         ),
       ),
     );

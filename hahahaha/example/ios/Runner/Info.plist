@@ -25,6 +25,8 @@
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>main</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>wwauth50291a264ed6e2c0000019</string>
@@ -33,6 +35,8 @@
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>main</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>jkk500</string>
@@ -41,6 +45,11 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>wxworklocal</string>
+		<string>wxwork</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>

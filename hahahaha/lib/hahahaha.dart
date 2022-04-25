@@ -8,11 +8,6 @@ typedef VoidCallback = void Function(Map<String, String>);
 class Hahahaha {
   static const MethodChannel _channel = MethodChannel('hahahaha');
 
-  static Future<String?> get platformVersion async {
-    final String? version = await _channel.invokeMethod('getPlatformVersion');
-    return version;
-  }
-
   /*! @brief WWKApi的成员函数，向企业微信终端程序注册企业应用。
   *
   * 需要在每次启动第三方应用程序时调用。第一次调用后，会在企业微信的可用应用列表中出现。
@@ -22,10 +17,8 @@ class Hahahaha {
   * @param agentid 企业微信企业应用ID
   * @return 成功返回YES，失败返回NO。
   */
-  static Future<bool> registerApp({required String appid, required String corpid, required String agentid}) async {
-    final bool res = await _channel
-        .invokeMethod('wx_registerApp', <String, String>{'appid': appid, 'corpid': corpid, 'agentid': agentid});
-    return res;
+  static void registerApp({required String appid, required String corpid, required String agentid}) async {
+    _channel.invokeMethod('wx_registerApp', <String, String>{'appid': appid, 'corpid': corpid, 'agentid': agentid});
   }
 
 /*! @brief 发送请求到企业微信，等待企业微信返回onResp
@@ -36,61 +29,21 @@ class Hahahaha {
  * @return 成功返回YES，失败返回NO。
  */
 
-  static void sendReq({required VoidCallback fun}) async {
+  static Future<Map<String, String>> sendReq() async {
+    final Completer<Map<String, String>> completer = Completer();
+
     _channel.invokeMethod('wx_sendReq');
 
     _channel.setMethodCallHandler((call) async {
-      debugPrint("===回到===${call.toString()}");
+      debugPrint("===授权结果===");
+      debugPrint("===method===${call.method}");
+      debugPrint("===arguments===${call.arguments}");
 
       switch (call.method) {
         case "onAuthResponse":
-          fun(call.arguments);
-
-          debugPrint("===反悔了===");
+          completer.complete({"state": call.arguments["state"], "code": call.arguments["code"]});
       }
     });
+    return completer.future;
   }
 }
-
-
-
-
-// flutter
-// 暴露注册方法
-// 点击企业微信登陆事件方法
-// 监听企业微信授权回调结果
-
-// ios
-// 注册企业微信
-// 调用企业微信登陆
-// 企业微信返回后去触发flutter方法
-
-// 插件使用说明书
-
-// ## 兼容Android 11
-// 请在你的应用的`AndroidManifest.xml`中添加以下queries:
-
-// ```xml
-// <queries>
-//     <intent>
-//         <action android:name="${applicationId}.FlutterActivity" />
-//     </intent>
-// <intent>
-//     <action android:name="android.intent.action.VIEW" />
-//     <data
-//         android:host="${applicationId}"
-//         android:path="/"
-//         android:scheme="wechatextmsg" />
-// </intent>
-// </queries>
-// ```
-
-// ## IOS
-// 请在你的`AppDelegate`中主动注册`WXApi`
-// ```oc
-// - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-//     //向微信注册
-// [[FluwxDelegate defaultManager] registerWxAPI:@"" universalLink:@""];
-//     return YES;
-// }
-// ```
